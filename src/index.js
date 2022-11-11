@@ -31,12 +31,14 @@ class Choice extends React.Component {
 class Board extends React.Component {
     constructor(props) {
         super(props)
-        let board;
-        /* fetch("https://sugoku.herokuapp.com/board?difficulty=random").then(res => res.json()).then(data => board = data.board.flat(1));*/
         this.state = {
             currentValue : 1,
-            board : board.map(e => e.replace(0, null))
+            board : Array(81).fill(null),
         };
+        fetch("https://sugoku.herokuapp.com/board?difficulty=random")
+            .then(res => res.json())
+            .then(data => 
+                this.setState({board: data.board.flat(1)}));
     }
     renderSquare(i) {
         return <Square squareNumber={i} squareValue={this.state.board[i]} processClick={() => this.handleClick(i)} />;
